@@ -1,10 +1,14 @@
 <template>
   <div id="app">
     <h1>AMIIBO</h1>
-    <amiibo-select :gameSeriess="gameSeriess"></amiibo-select>
+    <amiibo-select :gameSeriess="gameSeriess" :filterOptions="filterOptions"></amiibo-select>
     <amiibo-details :amiibo="selectedAmiibo"></amiibo-details>
     <!-- <amiibo-list v-if="return selectedGameSeries ? :amiibos='selectedGameSeries' : :amiibos='amiibos' "></amiibo-list> -->
-    <amiibo-list v-if="selectedGameSeries" :amiibos='amiibosMatchingGameSeries'></amiibo-list>
+    
+    <!-- <amiibo-list v-if="selectedGameSeries" :amiibos='amiibosMatchingGameSeries'></amiibo-list> -->
+    <amiibo-list :amiibos="amiibosToList"></amiibo-list>
+
+
     <!-- <amiibo-list v-if="" :amiibos='amiibos'></amiibo-list> -->
 
 
@@ -26,26 +30,31 @@ export default {
       selectedAmiibo: {},
       gameSeriess: [],
       selectedGameSeries: null,
-      amiibosMatchingGameSeries: []
+      amiibosMatchingGameSeries: [],
+      filterOptions: [],
+      filterValue: "figure"
+    }
+  },
+  computed: {
+    amiibosToList: function(){
+      let amiibosToList = this.amiibos
+      if (this.filterValue === "all"){
+        if (this.selectedGameSeries) {
+          amiibosToList = this.amiibos.filter(amiibo => amiibo.gameSeries === this.selectedGameSeries)
+        }
+        return amiibosToList
+      } else {
+        const amiibosMatchingType = this.amiibos.filter(amiibo => amiibo.type === this.filterValue)
+        if (this.selectedGameSeries) {
+          amiibosToList = amiibosMatchingType.filter(amiibo => amiibo.gameSeries === this.selectedGameSeries)
+        } else {
+          amiibosToList = amiibosMatchingType
+        }
+        return amiibosToList
+      }
     }
   },
   methods: {
-
-
-    // write function to search for amiibo that have coresponding gameSeriess
-
-
-
-
-    // getGameSeriess(){
-    //   const amiibosSortedByGameSeries = this.amiibos.map(amiibo => amiibo.gameSeries).sort() 
-      
-    //   amiibosSortedByGameSeries.forEach((gameSeries, index, array) => {
-    //     if (array[index] !== array[index + 1]) {
-    //       this.gameSeriess.push(gameSeries)
-    //     }
-    //   })
-    // }
   },
   components: {
     "amiibo-list": AmiiboList,
@@ -63,7 +72,18 @@ export default {
         if (array[index] !== array[index + 1]) {
           this.gameSeriess.push(gameSeries)
         }
+
       })
+    })
+    .then( amiibos => {
+      const amiibosSortedByType = this.amiibos.map(amiibo => amiibo.type).sort()
+
+      amiibosSortedByType.forEach((filterOption, index, array) => {
+        if (array[index] !== array[index + 1]) {
+          this.filterOptions.push(filterOption)
+        }
+      })
+      
     })
 
     eventBus.$on('selected-amiibo', (amiibo) => {
@@ -75,26 +95,12 @@ export default {
       const amiibosMatchingGameSeries = this.amiibos.filter(amiibo => amiibo.gameSeries == gameSeries)
       // console.log(amiiboMatchingGameSeriess);
       this.amiibosMatchingGameSeries = amiibosMatchingGameSeries
-      console.log(gameSeries);
-      
       
     })
-    
-
-    // // const sortedAmiibos = [...this.amiibos] //may not need to do this if map creates new array
-    // const amiibosSortedByGameSeries = this.amiibos.map(amiibo => amiibo.gameSeries).sort() 
-    // // loop over and check if index === to index + 1
-    // console.log(amiibosSortedByGameSeries);
-    
-    // amiibosSortedByGameSeries.forEach((gameSeries, index, array) => {
-    //   if (array[index] !== array[index + 1]) {
-    //     this.gameSeriess.push(gameSeries)
-    //   }
-    // })
-      // if no, add index
-      // might need to check amiibo.namesss
-    
-
+  
+    eventBus.$on('filtered-value', (filterValue) => {
+      this.filterValue = filterValue
+    })
   }
 }
 </script>
