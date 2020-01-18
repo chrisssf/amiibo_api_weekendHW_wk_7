@@ -1,5 +1,10 @@
 <template>
-  
+    <div>
+        <p>{{amiibo.name}}</p>
+        <p>Game: {{amiibo.gameSeries}}</p>
+        <p>Series: {{ amiibo.amiiboSeries }}</p>
+        <img :src="amiibo.image" alt="">
+    </div>
 </template>
 
 <script>
@@ -10,6 +15,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+img {
+    width: 150px;
+}
 
 </style>

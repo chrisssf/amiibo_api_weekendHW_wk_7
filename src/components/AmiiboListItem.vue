@@ -1,16 +1,25 @@
 <template>
-  <li><img :src="amiibo.image" alt=""></li>
+  <li v-on:click="handleClick"><img :src="amiibo.image" alt=""></li>
 </template>
 
 <script>
+
+import {eventBus} from '../main'
+
 export default {
     name: 'amiibo-list-item',
-    props: ['amiibo']
+    props: ['amiibo'],
+    methods: {
+        handleClick() {
+            eventBus.$emit('selected-amiibo', this.amiibo)
+        }
+
+    }
 
 }
 </script>
 
-<style>
+<style scoped>
 
 li {
     list-style: none;
