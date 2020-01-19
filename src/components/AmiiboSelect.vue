@@ -1,13 +1,19 @@
 <template>
     <div>
         <form>
-            <div v-for="filterOption in filterOptions">
-                <input v-on:click="handleClick(filterOption)" :checked="checkFigure(filterOption)" type="radio" name="filter" :value="filterOption">{{filterOption}}
+            <div v-for="(filterOption, index) in filterOptions" :key="index">
+                <input v-model="filterValue" v-on:click="handleClick(filterOption)" type="radio" name="filter" :value="filterOption">{{filterOption}}
             </div>
-                <input v-on:click="handleClick('all')" type="radio" name="filter" value="all">All
+                                <!-- :checked="checkFigure(filterOption)" -->
+
+                <!-- <input v-model="filterValue" v-on:click="handleClick('all')" type="radio" name="filter" value="all">All -->
+            
+            <!-- <input v-model="filterValue" v-on:click="handleClick()" value="Figure" checked="checked" type="radio" name="filter" >Figure
+            <input v-model="filterValue" v-on:click="handleClick()" value="Card" type="radio" name="filter" >Card
+            <input v-model="filterValue" v-on:click="handleClick()" value="Yarn" type="radio" name="filter" >Yarn -->
         </form>
         <select v-on:change="handleChange" v-model="selectedGameSeries">
-            <option v-for="game in gameSeriess" :value="game">{{game}}</option>
+            <option v-for="(game, index) in gameSeriess" :value="game" :key="index">{{game}}</option>
         </select>
     </div>
 </template>
@@ -19,7 +25,7 @@ export default {
     data() {
         return {
             'selectedGameSeries': null,
-            'filterOption': null
+            'filterValue': "Figure"
         }
     },
     props: ['gameSeriess', 'filterOptions'],
@@ -27,22 +33,29 @@ export default {
         handleChange(){
             eventBus.$emit('selected-game-series', this.selectedGameSeries)
         },
+        // handleClick(filterOption){
+        //     // this.filterValue = filterOption
+        //     eventBus.$emit('filtered-value', filterOption)
+        // },
         handleClick(filterOption){
-            this.filterOption = filterOption
+            // this.filterValue = filterOption
             eventBus.$emit('filtered-value', filterOption)
         },
-        checkFigure(filterOption){
-            if (filterOption === 'Figure') {
-                this.filterOption = filterOption
-                eventBus.$emit('filtered-value', filterOption)      
-                return "checked"
-            }
-        }
+        // checkFigure(filterOption){
+        //     if (filterOption === 'Figure') {
+        //         // this.filterValue = filterOption
+        //         // eventBus.$emit('filtered-value', filterOption)      
+        //         return "checked"
+        //     }
+        // }
         
     },
-    mounted() {
-        // eventBus.$emit('filtered-value', this.filter)
+    updated() {
+        eventBus.$emit('filtered-value', this.filterValue)
     }
+    // mounted() {
+    //     eventBus.$emit('filtered-value', this.filterValue)
+    // }
 }
 </script>
 

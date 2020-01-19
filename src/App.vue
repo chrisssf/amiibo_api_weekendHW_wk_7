@@ -8,10 +8,7 @@
     <!-- <amiibo-list v-if="selectedGameSeries" :amiibos='amiibosMatchingGameSeries'></amiibo-list> -->
     <amiibo-list :amiibos="amiibosToList"></amiibo-list>
 
-
     <!-- <amiibo-list v-if="" :amiibos='amiibos'></amiibo-list> -->
-
-
   </div>
 </template>
 
@@ -32,13 +29,13 @@ export default {
       selectedGameSeries: null,
       amiibosMatchingGameSeries: [],
       filterOptions: [],
-      filterValue: "figure"
+      filterValue: null
     }
   },
   computed: {
     amiibosToList: function(){
       let amiibosToList = this.amiibos
-      if (this.filterValue === "all"){
+      if (this.filterValue === "All"){
         if (this.selectedGameSeries) {
           amiibosToList = this.amiibos.filter(amiibo => amiibo.gameSeries === this.selectedGameSeries)
         }
@@ -83,7 +80,7 @@ export default {
           this.filterOptions.push(filterOption)
         }
       })
-      
+      this.filterOptions.push("All")
     })
 
     eventBus.$on('selected-amiibo', (amiibo) => {
