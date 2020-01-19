@@ -1,7 +1,10 @@
 <template>
-  <ul>
-      <amiibo-list-item v-for="amiibo in amiibos" :amiibo="amiibo"></amiibo-list-item>
-  </ul>
+    <div>
+        <ul>
+            <amiibo-list-item v-for="amiibo in amiibos" :amiibo="amiibo"></amiibo-list-item>
+        </ul>
+        <h4 v-if="amiibos.length === 0">Nothing Matches Your Search</h4>
+    </div>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <p>{{amiibo.name}}</p>
+    <div v-if="amiibo.name">
+        <h3>{{amiibo.name}}</h3>
         <p>Game: {{amiibo.gameSeries}}</p>
         <p>Series: {{ amiibo.amiiboSeries }}</p>
         <img :src="amiibo.image" alt="">

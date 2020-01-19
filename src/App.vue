@@ -36,13 +36,13 @@ export default {
     amiibosToList: function(){
       let amiibosToList = this.amiibos
       if (this.filterValue === "All"){
-        if (this.selectedGameSeries) {
-          amiibosToList = this.amiibos.filter(amiibo => amiibo.gameSeries === this.selectedGameSeries)
-        }
+          if (this.selectedGameSeries !== "All") {
+            amiibosToList = this.amiibos.filter(amiibo => amiibo.gameSeries === this.selectedGameSeries)
+          }
         return amiibosToList
       } else {
         const amiibosMatchingType = this.amiibos.filter(amiibo => amiibo.type === this.filterValue)
-        if (this.selectedGameSeries) {
+        if (this.selectedGameSeries !== "All") {
           amiibosToList = amiibosMatchingType.filter(amiibo => amiibo.gameSeries === this.selectedGameSeries)
         } else {
           amiibosToList = amiibosMatchingType
@@ -69,8 +69,8 @@ export default {
         if (array[index] !== array[index + 1]) {
           this.gameSeriess.push(gameSeries)
         }
-
       })
+      this.gameSeriess.unshift("All")
     })
     .then( amiibos => {
       const amiibosSortedByType = this.amiibos.map(amiibo => amiibo.type).sort()
