@@ -3,12 +3,8 @@
     <h1>AMIIBO</h1>
     <amiibo-select :gameSeriess="gameSeriess" :filterOptions="filterOptions"></amiibo-select>
     <amiibo-details :amiibo="selectedAmiibo"></amiibo-details>
-    <!-- <amiibo-list v-if="return selectedGameSeries ? :amiibos='selectedGameSeries' : :amiibos='amiibos' "></amiibo-list> -->
-    
-    <!-- <amiibo-list v-if="selectedGameSeries" :amiibos='amiibosMatchingGameSeries'></amiibo-list> -->
     <amiibo-list :amiibos="amiibosToList"></amiibo-list>
 
-    <!-- <amiibo-list v-if="" :amiibos='amiibos'></amiibo-list> -->
   </div>
 </template>
 
